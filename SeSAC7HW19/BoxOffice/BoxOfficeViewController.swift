@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class BoxOfficeViewController: UIViewController {
-    let movie = MovieInfo.movies.shuffled().prefix(10)
+    var movie = MovieInfo.movies.shuffled().prefix(10)
 
     let backgroundImage = UIImageView()
     let searchTextField = UITextField()
@@ -83,6 +83,8 @@ extension BoxOfficeViewController: ViewDesignProtocol {
         movieTableView.dataSource = self
 
         movieTableView.register(BoxOfficeTableViewCell.self, forCellReuseIdentifier: BoxOfficeTableViewCell.identifier)
+
+        searchTextField.delegate = self
     }
 }
 
@@ -100,5 +102,14 @@ extension BoxOfficeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
 
         return cell
+    }
+}
+
+extension BoxOfficeViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        movie = MovieInfo.movies.shuffled().prefix(10)
+        movieTableView.reloadData()
+        return true
     }
 }
