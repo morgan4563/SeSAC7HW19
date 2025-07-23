@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class BoxOfficeViewController: UIViewController {
+    let movie = MovieInfo.movies.shuffled().prefix(10)
 
     let backgroundImage = UIImageView()
     let searchTextField = UITextField()
@@ -93,7 +94,9 @@ extension BoxOfficeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: BoxOfficeTableViewCell.identifier, for: indexPath) as! BoxOfficeTableViewCell
 
-        cell.indexLabel.text = "\(indexPath.row)"
+        cell.indexLabel.text = "\(indexPath.row + 1)"
+        cell.titleLabel.text = movie[indexPath.row].title
+        cell.dateLabel.text = movie[indexPath.row].releaseDate
         cell.backgroundColor = .clear
 
         return cell

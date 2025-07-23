@@ -51,7 +51,7 @@ extension BoxOfficeTableViewCell: ViewDesignProtocol {
         }
         dateLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-8)
-            make.width.equalTo(120)
+            make.centerY.equalTo(contentView)
         }
     }
     
@@ -67,6 +67,4 @@ extension BoxOfficeTableViewCell: ViewDesignProtocol {
         dateLabel.text = "2020-04-01"
         dateLabel.textColor = .white
     }
-    
-
 }
