@@ -8,7 +8,9 @@
 import UIKit
 
 class LottoNumbersView: UIView {
+    let mainStack = UIStackView()
     let numberStack = UIStackView()
+    let bonusStack = UIStackView()
 
     let plusLabel = UILabel()
     let bonusBall = LottoBallView()
@@ -34,6 +36,9 @@ class LottoNumbersView: UIView {
             let ball = LottoBallView()
             ball.configureNumber(number: $0)
             numberStack.addArrangedSubview(ball)
+            ball.snp.makeConstraints { make in
+                make.size.equalTo(40)
+            }
         }
         bonusBall.configureNumber(number: bonusNumber)
     }
@@ -41,30 +46,42 @@ class LottoNumbersView: UIView {
 
 extension LottoNumbersView: ViewDesignProtocol {
     func configureHierachy() {
-        self.addSubview(numberStack)
+        self.addSubview(mainStack)
 
-        numberStack.addArrangedSubview(plusLabel)
-        numberStack.addArrangedSubview(bonusBall)
-        numberStack.addArrangedSubview(bonusText)
+        mainStack.addArrangedSubview(numberStack)
+        mainStack.addArrangedSubview(plusLabel)
+        mainStack.addArrangedSubview(bonusStack)
+
+        bonusStack.addArrangedSubview(bonusBall)
+        bonusStack.addArrangedSubview(bonusText)
     }
     
     func configureLayout() {
-        numberStack.snp.makeConstraints { make in
+        mainStack.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        bonusBall.snp.makeConstraints { make in
+            make.size.equalTo(40)
         }
     }
     
     func configureView() {
+        mainStack.axis = .horizontal
+        mainStack.spacing = 8
+        mainStack.alignment = .center
+
         numberStack.axis = .horizontal
         numberStack.spacing = 4
 
+        bonusStack.axis = .vertical
+        bonusStack.spacing = 4
+        bonusStack.alignment = .center
+
         plusLabel.text = "+"
-        plusLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        plusLabel.font = .systemFont(ofSize: 22, weight: .bold)
 
         bonusText.text = "보너스"
         bonusText.font = .systemFont(ofSize: 13, weight: .semibold)
         bonusText.textColor = .customGray
     }
-    
-
 }

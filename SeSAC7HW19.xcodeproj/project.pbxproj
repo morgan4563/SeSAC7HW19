@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		92BD4EB92E31061C0063003C /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BD4EB82E31061C0063003C /* BoxOfficeViewController.swift */; };
+		92BD4F1E2E310A4F0063003C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 92BD4F1D2E310A4F0063003C /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		92BD4E9C2E31059F0063003C /* SeSAC7HW19.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSAC7HW19.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		92BD4EB82E31061C0063003C /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92BD4F1E2E310A4F0063003C /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,7 +50,6 @@
 		92BD4E932E31059F0063003C = {
 			isa = PBXGroup;
 			children = (
-				92BD4EB82E31061C0063003C /* BoxOfficeViewController.swift */,
 				92BD4E9E2E31059F0063003C /* SeSAC7HW19 */,
 				92BD4E9D2E31059F0063003C /* Products */,
 			);
@@ -84,6 +83,7 @@
 			);
 			name = SeSAC7HW19;
 			packageProductDependencies = (
+				92BD4F1D2E310A4F0063003C /* SnapKit */,
 			);
 			productName = SeSAC7HW19;
 			productReference = 92BD4E9C2E31059F0063003C /* SeSAC7HW19.app */;
@@ -113,6 +113,9 @@
 			);
 			mainGroup = 92BD4E932E31059F0063003C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				92BD4F1C2E310A4F0063003C /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 92BD4E9D2E31059F0063003C /* Products */;
 			projectDirPath = "";
@@ -138,7 +141,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92BD4EB92E31061C0063003C /* BoxOfficeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +342,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		92BD4F1C2E310A4F0063003C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		92BD4F1D2E310A4F0063003C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92BD4F1C2E310A4F0063003C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 92BD4E942E31059F0063003C /* Project object */;
 }
