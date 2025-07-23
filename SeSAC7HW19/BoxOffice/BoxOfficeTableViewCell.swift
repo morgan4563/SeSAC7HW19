@@ -53,6 +53,8 @@ extension BoxOfficeTableViewCell: ViewDesignProtocol {
             make.trailing.equalToSuperview().offset(-8)
             make.centerY.equalTo(contentView)
         }
+        dateLabel.setContentHuggingPriority(.required, for: .horizontal)
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
     func configureView() {

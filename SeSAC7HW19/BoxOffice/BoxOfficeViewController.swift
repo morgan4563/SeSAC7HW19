@@ -23,6 +23,17 @@ class BoxOfficeViewController: UIViewController {
         configureHierachy()
         configureLayout()
         configureView()
+
+        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+    }
+
+    @objc func searchButtonTapped() {
+		movieDataChange()
+        movieTableView.reloadData()
+    }
+
+    private func movieDataChange() {
+        movie = MovieInfo.movies.shuffled().prefix(10)
     }
 
 }
@@ -108,7 +119,7 @@ extension BoxOfficeViewController: UITableViewDelegate, UITableViewDataSource {
 extension BoxOfficeViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
-        movie = MovieInfo.movies.shuffled().prefix(10)
+		movieDataChange()
         movieTableView.reloadData()
         return true
     }
