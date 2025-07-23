@@ -65,7 +65,8 @@ extension BoxOfficeViewController: ViewDesignProtocol {
     
     func configureView() {
         backgroundImage.image = UIImage(named: "freepik_movieBackground")
-        backgroundImage.alpha = 0.4
+        backgroundImage.alpha = 0.3
+        backgroundImage.contentMode = .scaleAspectFill
 
         searchTextField.textColor = .white
 
