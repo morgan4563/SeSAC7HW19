@@ -42,6 +42,7 @@ extension LottoViewController: ViewDesignProtocol {
         lottoRoundSearchTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview().inset(16)
+            make.height.equalTo(40)
         }
         explainLabel.snp.makeConstraints { make in
             make.top.equalTo(lottoRoundSearchTextField.snp.bottom).offset(16)
@@ -63,12 +64,18 @@ extension LottoViewController: ViewDesignProtocol {
 
     func configureView() {
         view.backgroundColor = .white
+
         lottoRoundSearchTextField.borderStyle = .line
         lottoRoundSearchTextField.textAlignment = .center
+        lottoRoundSearchTextField.layer.borderColor = UIColor.systemGray6.cgColor
+        lottoRoundSearchTextField.layer.borderWidth = 2
+
         explainLabel.text = "당첨번호 안내"
+
         explainDateLabel.text = "2020-05-30 추첨"
-        resultLabel.text = "200회 당첨결과"
-        numberStackView.configureRandomNumbers()
+
+        resultLabel.text = "당첨결과"
+        resultLabel.font = .systemFont(ofSize: 30, weight: .bold)
     }
 }
 
@@ -89,5 +96,12 @@ extension LottoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         let selected = row + 1
         lottoRoundSearchTextField.text = "\(selected)"
         numberStackView.configureRandomNumbers()
+
+        let roundText = "\(selected)회"
+        let fullText = "\(roundText) 당첨결과"
+        let attributeString = NSMutableAttributedString(string: fullText)
+        let range = (fullText as NSString).range(of: roundText)
+        attributeString.addAttribute(.foregroundColor, value: UIColor.customYellow, range: range)
+        resultLabel.attributedText = attributeString
     }
 }

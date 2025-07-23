@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+        //MARK: - 시작할 컨트롤러 설정 위치
 		let rootVC = LottoViewController()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
