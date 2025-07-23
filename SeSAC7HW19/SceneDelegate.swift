@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         //MARK: - 시작할 컨트롤러 설정 위치
-		let rootVC = LottoViewController()
+		let rootVC = BoxOfficeViewController()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
     }

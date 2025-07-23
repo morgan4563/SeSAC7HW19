@@ -6,24 +6,75 @@
 //
 
 import UIKit
+import SnapKit
 
 class BoxOfficeViewController: UIViewController {
+
+    let backgroundImage = UIImageView()
+    let searchTextField = UITextField()
+    let bottomLine = UIView()
+    let searchButton = UIButton()
+    let movieTableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        configureHierachy()
+        configureLayout()
+        configureView()
+    }
+
+}
+
+extension BoxOfficeViewController: ViewDesignProtocol {
+    func configureHierachy() {
+        view.addSubview(backgroundImage)
+        view.addSubview(searchTextField)
+        view.addSubview(bottomLine)
+        view.addSubview(searchButton)
+        view.addSubview(movieTableView)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func configureLayout() {
+        backgroundImage.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        searchTextField.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.leading.equalToSuperview().inset(8)
+            make.trailing.equalTo(searchButton.snp.leading).offset(-16)
+            make.height.equalTo(44)
+        }
+        bottomLine.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom)
+            make.horizontalEdges.equalTo(searchTextField)
+            make.height.equalTo(2)
+        }
+        searchButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.trailing.equalToSuperview().inset(8)
+            make.height.equalTo(44)
+            make.width.equalTo(100)
+        }
+        movieTableView.snp.makeConstraints { make in
+            make.top.equalTo(bottomLine.snp.bottom).offset(16)
+            make.horizontalEdges.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview()
+        }
     }
-    */
+    
+    func configureView() {
+        backgroundImage.image = UIImage(named: "freepik_movieBackground")
+        backgroundImage.alpha = 0.4
 
+        searchTextField.textColor = .white
+
+        bottomLine.backgroundColor = .white
+
+        searchButton.setTitle("검색", for: .normal)
+        searchButton.setTitleColor(.black, for: .normal)
+        searchButton.backgroundColor = .white
+
+        movieTableView.backgroundColor = .clear
+    }
 }
