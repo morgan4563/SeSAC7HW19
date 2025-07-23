@@ -60,6 +60,9 @@ extension LottoNumbersView: ViewDesignProtocol {
         mainStack.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        plusLabel.snp.makeConstraints { make in
+            make.size.equalTo(40)
+        }
         bonusBall.snp.makeConstraints { make in
             make.size.equalTo(40)
         }
@@ -68,7 +71,7 @@ extension LottoNumbersView: ViewDesignProtocol {
     func configureView() {
         mainStack.axis = .horizontal
         mainStack.spacing = 8
-        mainStack.alignment = .center
+        mainStack.alignment = .top
 
         numberStack.axis = .horizontal
         numberStack.spacing = 4
@@ -79,6 +82,7 @@ extension LottoNumbersView: ViewDesignProtocol {
 
         plusLabel.text = "+"
         plusLabel.font = .systemFont(ofSize: 22, weight: .bold)
+        plusLabel.textAlignment = .center
 
         bonusText.text = "보너스"
         bonusText.font = .systemFont(ofSize: 13, weight: .semibold)
