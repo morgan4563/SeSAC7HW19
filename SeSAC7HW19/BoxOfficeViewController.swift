@@ -1,5 +1,5 @@
 //
-//  LottoViewController.swift
+//  BoxOfficeViewController.swift
 //  SeSAC7HW19
 //
 //  Created by hyunMac on 7/23/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LottoViewController: UIViewController {
+class BoxOfficeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
