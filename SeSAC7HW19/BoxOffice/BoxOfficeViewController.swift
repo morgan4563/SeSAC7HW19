@@ -77,5 +77,25 @@ extension BoxOfficeViewController: ViewDesignProtocol {
         searchButton.backgroundColor = .white
 
         movieTableView.backgroundColor = .clear
+
+        movieTableView.delegate = self
+        movieTableView.dataSource = self
+
+        movieTableView.register(BoxOfficeTableViewCell.self, forCellReuseIdentifier: BoxOfficeTableViewCell.identifier)
+    }
+}
+
+extension BoxOfficeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: BoxOfficeTableViewCell.identifier, for: indexPath) as! BoxOfficeTableViewCell
+
+        cell.indexLabel.text = "\(indexPath.row)"
+        cell.backgroundColor = .clear
+
+        return cell
     }
 }
