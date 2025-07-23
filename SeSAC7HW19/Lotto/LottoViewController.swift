@@ -14,6 +14,7 @@ class LottoViewController: UIViewController {
     let explainDateLabel = UILabel()
     let resultLabel = UILabel()
     let numberStackView = LottoNumbersView()
+    let pickerView = UIPickerView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,10 @@ class LottoViewController: UIViewController {
         configureHierachy()
         configureLayout()
         configureView()
+
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        lottoRoundSearchTextField.inputView = pickerView
     }
 }
 
@@ -63,6 +68,26 @@ extension LottoViewController: ViewDesignProtocol {
         explainLabel.text = "당첨번호 안내"
         explainDateLabel.text = "2020-05-30 추첨"
         resultLabel.text = "200회 당첨결과"
+        numberStackView.configureRandomNumbers()
+    }
+}
+
+extension LottoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 1181
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(row + 1) 회차"
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let selected = row + 1
+        lottoRoundSearchTextField.text = "\(selected)"
         numberStackView.configureRandomNumbers()
     }
 }

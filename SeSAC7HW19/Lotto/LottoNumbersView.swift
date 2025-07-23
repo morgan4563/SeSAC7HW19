@@ -32,6 +32,11 @@ class LottoNumbersView: UIView {
         let bonusNumber = numbers.removeLast()
         let lottoNumbers = numbers.sorted()
 
+        numberStack.arrangedSubviews.forEach {
+            numberStack.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        }
+
         lottoNumbers.forEach {
             let ball = LottoBallView()
             ball.configureNumber(number: $0)
