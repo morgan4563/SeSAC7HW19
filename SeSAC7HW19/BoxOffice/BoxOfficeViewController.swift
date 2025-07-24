@@ -40,7 +40,11 @@ class BoxOfficeViewController: UIViewController {
     }
 
     @objc func searchButtonTapped() {
-        callMovieData(date: searchTextField.text ?? "")
+        guard let text = searchTextField.text, text.count == 8, let _ = Int(text) else {
+            showTextAlert()
+            return
+        }
+        callMovieData(date: text)
     }
 
     private func callMovieData(date: String) {
@@ -55,9 +59,9 @@ class BoxOfficeViewController: UIViewController {
                 self.movie = value.boxOfficeResult.dailyBoxOfficeList
                 self.movieTableView.reloadData()
                 self.configureBaseDate(date: date)
-            case .failure(let error):
+            case .failure:
                 self.loading(isLoading: false)
-                print("fail", error)
+                self.showRetryAlert(date: date)
             }
         }
     }
@@ -74,6 +78,24 @@ class BoxOfficeViewController: UIViewController {
             activityIndicator.stopAnimating()
             activityIndicator.isHidden = true
         }
+        searchButton.isEnabled = !isLoading
+    }
+
+    private func showRetryAlert(date: String) {
+        let alert = UIAlertController(title: "네트워크 오류", message: "다시 시도 할까요?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alert.addAction(UIAlertAction(title: "재시도", style: .default) { [weak self] _ in
+            guard let self else { return }
+            self.callMovieData(date: date)
+        })
+
+        present(alert, animated: true)
+    }
+
+    private func showTextAlert() {
+        let alert = UIAlertController(title: "날짜 형식 오류", message: "8자리 날짜 형태로 입력 해주세요", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
     }
 }
 
@@ -147,7 +169,6 @@ extension BoxOfficeViewController: ViewDesignProtocol {
         movieTableView.dataSource = self
         searchTextField.delegate = self
 
-        activityIndicator.hidesWhenStopped = true
         activityIndicator.isHidden = true
         activityIndicator.color = .white
     }
@@ -173,7 +194,11 @@ extension BoxOfficeViewController: UITableViewDelegate, UITableViewDataSource {
 extension BoxOfficeViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
-        callMovieData(date: searchTextField.text ?? "")
+        guard let text = searchTextField.text, text.count == 8, let _ = Int(text) else {
+            showTextAlert()
+            return true
+        }
+        callMovieData(date: text)
         return true
     }
 }
