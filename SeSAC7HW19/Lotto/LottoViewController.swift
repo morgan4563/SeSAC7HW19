@@ -79,6 +79,7 @@ extension LottoViewController: ViewDesignProtocol {
 
         resultLabel.text = "당첨결과"
         resultLabel.font = .systemFont(ofSize: 30, weight: .bold)
+        callLottoData()
     }
 }
 
@@ -101,7 +102,7 @@ extension LottoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         callLottoData(round: selected)
     }
 
-    func callLottoData(round: Int) {
+    func callLottoData(round: Int = 1181) {
         let url = "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(round)"
         AF.request(url, method: .get).responseDecodable(of: Lotto.self) { [weak self] response in
             switch response.result {
