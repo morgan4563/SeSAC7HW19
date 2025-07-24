@@ -27,11 +27,7 @@ class LottoNumbersView: UIView {
         fatalError("스토리보드로 사용됨, 에러")
     }
 
-    func configureRandomNumbers() {
-        var numbers = (1...45).shuffled().prefix(7)
-        let bonusNumber = numbers.removeLast()
-        let lottoNumbers = numbers.sorted()
-
+    func configureNumbers(lottoNumbers: [Int], bonusNumber: Int) {
         numberStack.arrangedSubviews.forEach {
             numberStack.removeArrangedSubview($0)
             $0.removeFromSuperview()

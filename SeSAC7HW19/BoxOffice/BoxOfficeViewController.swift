@@ -35,7 +35,6 @@ class BoxOfficeViewController: UIViewController {
     private func movieDataChange() {
         movie = MovieInfo.movies.shuffled().prefix(10)
     }
-
 }
 
 extension BoxOfficeViewController: ViewDesignProtocol {

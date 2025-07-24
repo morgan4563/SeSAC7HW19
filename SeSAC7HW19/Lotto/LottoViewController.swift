@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class LottoViewController: UIViewController {
     let lottoRoundSearchTextField = UITextField()
@@ -27,6 +28,8 @@ class LottoViewController: UIViewController {
         pickerView.dataSource = self
         lottoRoundSearchTextField.inputView = pickerView
     }
+
+
 }
 
 extension LottoViewController: ViewDesignProtocol {
@@ -95,13 +98,31 @@ extension LottoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let selected = row + 1
         lottoRoundSearchTextField.text = "\(selected)"
-        numberStackView.configureRandomNumbers()
+        callLottoData(round: selected)
+    }
 
-        let roundText = "\(selected)회"
-        let fullText = "\(roundText) 당첨결과"
-        let attributeString = NSMutableAttributedString(string: fullText)
-        let range = (fullText as NSString).range(of: roundText)
-        attributeString.addAttribute(.foregroundColor, value: UIColor.customYellow, range: range)
-        resultLabel.attributedText = attributeString
+    func callLottoData(round: Int) {
+        let url = "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(round)"
+        AF.request(url, method: .get).responseDecodable(of: Lotto.self) { [weak self] response in
+            switch response.result {
+            case .success(let value):
+                let date = value.drwNoDate
+                let round = value.drwNo
+                let numbers = [value.drwtNo1, value.drwtNo2, value.drwtNo3, value.drwtNo4, value.drwtNo5, value.drwtNo6]
+                let bonus = value.bnusNo
+
+                let roundText = "\(round)회"
+                let fullText = "\(roundText) 당첨결과"
+                let attributeString = NSMutableAttributedString(string: fullText)
+                let range = (fullText as NSString).range(of: roundText)
+                attributeString.addAttribute(.foregroundColor, value: UIColor.customYellow, range: range)
+                self?.resultLabel.attributedText = attributeString
+                self?.numberStackView.configureNumbers(lottoNumbers: numbers, bonusNumber: bonus)
+                self?.explainDateLabel.text = date
+
+            case .failure(let error):
+                print("fail", error)
+            }
+        }
     }
 }

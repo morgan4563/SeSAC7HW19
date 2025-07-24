@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		92BD4F1E2E310A4F0063003C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 92BD4F1D2E310A4F0063003C /* SnapKit */; };
+		92E1C2032E32058500CCBBC9 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 92E1C2022E32058500CCBBC9 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92BD4F1E2E310A4F0063003C /* SnapKit in Frameworks */,
+				92E1C2032E32058500CCBBC9 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			name = SeSAC7HW19;
 			packageProductDependencies = (
 				92BD4F1D2E310A4F0063003C /* SnapKit */,
+				92E1C2022E32058500CCBBC9 /* Alamofire */,
 			);
 			productName = SeSAC7HW19;
 			productReference = 92BD4E9C2E31059F0063003C /* SeSAC7HW19.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				92BD4F1C2E310A4F0063003C /* XCRemoteSwiftPackageReference "SnapKit" */,
+				92E1C2012E32058500CCBBC9 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 92BD4E9D2E31059F0063003C /* Products */;
@@ -352,6 +356,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		92E1C2012E32058500CCBBC9 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -359,6 +371,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 92BD4F1C2E310A4F0063003C /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		92E1C2022E32058500CCBBC9 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92E1C2012E32058500CCBBC9 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
