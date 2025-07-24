@@ -11,7 +11,7 @@ class BoxOfficeTableViewCell: UITableViewCell {
 
 	static let identifier = "BoxOfficeTableViewCell"
 
-    let indexLabel = UILabel()
+    let rank = UILabel()
     let titleLabel = UILabel()
     let dateLabel = UILabel()
 
@@ -31,13 +31,13 @@ class BoxOfficeTableViewCell: UITableViewCell {
 
 extension BoxOfficeTableViewCell: ViewDesignProtocol {
     func configureHierachy() {
-        contentView.addSubview(indexLabel)
+        contentView.addSubview(rank)
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
     }
     
     func configureLayout() {
-        indexLabel.snp.makeConstraints { make in
+        rank.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(8)
             make.centerY.equalTo(contentView)
             make.height.equalTo(22)
@@ -45,7 +45,7 @@ extension BoxOfficeTableViewCell: ViewDesignProtocol {
 
         }
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(indexLabel.snp.trailing).offset(16)
+            make.leading.equalTo(rank.snp.trailing).offset(16)
             make.trailing.equalTo(dateLabel.snp.leading).offset(-16)
             make.centerY.equalTo(contentView)
         }
@@ -58,10 +58,10 @@ extension BoxOfficeTableViewCell: ViewDesignProtocol {
     }
     
     func configureView() {
-        indexLabel.backgroundColor = .white
-        indexLabel.textColor = .black
-        indexLabel.font = .systemFont(ofSize: 17, weight: .bold)
-        indexLabel.textAlignment = .center
+        rank.backgroundColor = .white
+        rank.textColor = .black
+        rank.font = .systemFont(ofSize: 17, weight: .bold)
+        rank.textAlignment = .center
 
         titleLabel.text = "엽문 4: 더 파이널"
         titleLabel.textColor = .white

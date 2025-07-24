@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ViewDesignProtocol {
+protocol ViewDesignProtocol: AnyObject {
     func configureHierachy()
     func configureLayout()
     func configureView()

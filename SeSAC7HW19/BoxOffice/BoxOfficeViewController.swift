@@ -7,9 +7,10 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class BoxOfficeViewController: UIViewController {
-    var movie = MovieInfo.movies.shuffled().prefix(10)
+    var movie = [MovieData]()
 
     let backgroundImage = UIImageView()
     let searchTextField = UITextField()
@@ -24,16 +25,34 @@ class BoxOfficeViewController: UIViewController {
         configureLayout()
         configureView()
 
+        callMovieData(date: getYesterDayString())
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
     }
 
-    @objc func searchButtonTapped() {
-		movieDataChange()
-        movieTableView.reloadData()
+    private func getYesterDayString() -> String {
+        let df = DateFormatter()
+        df.dateFormat = "yyyyMMdd"
+
+        let component = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+        return df.string(from: component)
     }
 
-    private func movieDataChange() {
-        movie = MovieInfo.movies.shuffled().prefix(10)
+    @objc func searchButtonTapped() {
+        callMovieData(date: searchTextField.text ?? "")
+    }
+
+    private func callMovieData(date: String) {
+        let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=19c7b9971c926c02ce807c0a86370091&targetDt=\(date)"
+        AF.request(url, method: .get)
+            .responseDecodable(of: Movie.self) { response in
+            switch response.result {
+            case .success(let value):
+                self.movie = value.boxOfficeResult.dailyBoxOfficeList
+                self.movieTableView.reloadData()
+            case .failure(let error):
+                print("fail", error)
+            }
+        }
     }
 }
 
@@ -45,7 +64,7 @@ extension BoxOfficeViewController: ViewDesignProtocol {
         view.addSubview(searchButton)
         view.addSubview(movieTableView)
     }
-    
+
     func configureLayout() {
         backgroundImage.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -73,7 +92,7 @@ extension BoxOfficeViewController: ViewDesignProtocol {
             make.bottom.equalToSuperview()
         }
     }
-    
+
     func configureView() {
         backgroundImage.image = UIImage(named: "freepik_movieBackground")
         backgroundImage.alpha = 0.3
@@ -100,15 +119,15 @@ extension BoxOfficeViewController: ViewDesignProtocol {
 
 extension BoxOfficeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return movie.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: BoxOfficeTableViewCell.identifier, for: indexPath) as! BoxOfficeTableViewCell
 
-        cell.indexLabel.text = "\(indexPath.row + 1)"
-        cell.titleLabel.text = movie[indexPath.row].title
-        cell.dateLabel.text = movie[indexPath.row].releaseDate
+        cell.rank.text = movie[indexPath.row].rank
+        cell.titleLabel.text = movie[indexPath.row].movieNm
+        cell.dateLabel.text = movie[indexPath.row].openDt
         cell.backgroundColor = .clear
 
         return cell
@@ -118,8 +137,7 @@ extension BoxOfficeViewController: UITableViewDelegate, UITableViewDataSource {
 extension BoxOfficeViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
-		movieDataChange()
-        movieTableView.reloadData()
+        callMovieData(date: searchTextField.text ?? "")
         return true
     }
 }
