@@ -28,8 +28,6 @@ class LottoViewController: UIViewController {
         pickerView.dataSource = self
         lottoRoundSearchTextField.inputView = pickerView
     }
-
-
 }
 
 extension LottoViewController: ViewDesignProtocol {
@@ -75,11 +73,11 @@ extension LottoViewController: ViewDesignProtocol {
 
         explainLabel.text = "당첨번호 안내"
 
-        explainDateLabel.text = "2020-05-30 추첨"
+        explainDateLabel.text = ""
 
         resultLabel.text = "당첨결과"
         resultLabel.font = .systemFont(ofSize: 30, weight: .bold)
-        callLottoData()
+        callLottoData(round: getLastRound())
     }
 }
 
@@ -102,7 +100,7 @@ extension LottoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         callLottoData(round: selected)
     }
 
-    func callLottoData(round: Int = 1181) {
+    func callLottoData(round: Int) {
         let url = "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(round)"
         AF.request(url, method: .get).responseDecodable(of: Lotto.self) { [weak self] response in
             switch response.result {
@@ -125,5 +123,20 @@ extension LottoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
                 print("fail", error)
             }
         }
+    }
+
+    func getLastRound() -> Int {
+		var components = DateComponents()
+        components.year = 2025
+        components.month = 7
+        components.day = 19
+
+        let baseDay = Calendar.current.date(from: components) ?? Date()
+        let currentDate = Date()
+        let gap = Calendar.current.dateComponents([.day], from: baseDay, to: currentDate)
+
+        let lastRound = gap.day! / 7 + 1181
+
+        return lastRound
     }
 }

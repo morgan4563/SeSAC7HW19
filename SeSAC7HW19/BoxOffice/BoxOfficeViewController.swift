@@ -15,8 +15,10 @@ class BoxOfficeViewController: UIViewController {
     let backgroundImage = UIImageView()
     let searchTextField = UITextField()
     let bottomLine = UIView()
+    let baseDateLabel = UILabel()
     let searchButton = UIButton()
     let movieTableView = UITableView()
+    let activityIndicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +35,8 @@ class BoxOfficeViewController: UIViewController {
         let df = DateFormatter()
         df.dateFormat = "yyyyMMdd"
 
-        let component = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
-        return df.string(from: component)
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+        return df.string(from: yesterday)
     }
 
     @objc func searchButtonTapped() {
@@ -45,14 +47,20 @@ class BoxOfficeViewController: UIViewController {
         let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=19c7b9971c926c02ce807c0a86370091&targetDt=\(date)"
         AF.request(url, method: .get)
             .responseDecodable(of: Movie.self) { response in
+
             switch response.result {
             case .success(let value):
                 self.movie = value.boxOfficeResult.dailyBoxOfficeList
                 self.movieTableView.reloadData()
+                self.configureBaseDate(date: date)
             case .failure(let error):
                 print("fail", error)
             }
         }
+    }
+
+    private func configureBaseDate(date: String) {
+        baseDateLabel.text = "기준 날짜: \(date)"
     }
 }
 
@@ -61,6 +69,7 @@ extension BoxOfficeViewController: ViewDesignProtocol {
         view.addSubview(backgroundImage)
         view.addSubview(searchTextField)
         view.addSubview(bottomLine)
+        view.addSubview(baseDateLabel)
         view.addSubview(searchButton)
         view.addSubview(movieTableView)
     }
@@ -86,8 +95,12 @@ extension BoxOfficeViewController: ViewDesignProtocol {
             make.height.equalTo(44)
             make.width.equalTo(100)
         }
+        baseDateLabel.snp.makeConstraints { make in
+            make.top.equalTo(bottomLine.snp.bottom).offset(8)
+            make.leading.equalToSuperview().inset(8)
+        }
         movieTableView.snp.makeConstraints { make in
-            make.top.equalTo(bottomLine.snp.bottom).offset(16)
+            make.top.equalTo(baseDateLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(8)
             make.bottom.equalToSuperview()
         }
@@ -102,17 +115,18 @@ extension BoxOfficeViewController: ViewDesignProtocol {
 
         bottomLine.backgroundColor = .white
 
+        baseDateLabel.font = .systemFont(ofSize: 13, weight: .bold)
+        baseDateLabel.textColor = .white
+
         searchButton.setTitle("검색", for: .normal)
         searchButton.setTitleColor(.black, for: .normal)
         searchButton.backgroundColor = .white
 
         movieTableView.backgroundColor = .clear
+        movieTableView.register(BoxOfficeTableViewCell.self, forCellReuseIdentifier: BoxOfficeTableViewCell.identifier)
 
         movieTableView.delegate = self
         movieTableView.dataSource = self
-
-        movieTableView.register(BoxOfficeTableViewCell.self, forCellReuseIdentifier: BoxOfficeTableViewCell.identifier)
-
         searchTextField.delegate = self
     }
 }
