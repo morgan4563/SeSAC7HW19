@@ -44,16 +44,19 @@ class BoxOfficeViewController: UIViewController {
     }
 
     private func callMovieData(date: String) {
+        loading(isLoading: true)
         let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=19c7b9971c926c02ce807c0a86370091&targetDt=\(date)"
         AF.request(url, method: .get)
             .responseDecodable(of: Movie.self) { response in
 
             switch response.result {
             case .success(let value):
+                self.loading(isLoading: false)
                 self.movie = value.boxOfficeResult.dailyBoxOfficeList
                 self.movieTableView.reloadData()
                 self.configureBaseDate(date: date)
             case .failure(let error):
+                self.loading(isLoading: false)
                 print("fail", error)
             }
         }
@@ -61,6 +64,16 @@ class BoxOfficeViewController: UIViewController {
 
     private func configureBaseDate(date: String) {
         baseDateLabel.text = "기준 날짜: \(date)"
+    }
+
+    private func loading(isLoading: Bool) {
+        if isLoading {
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+            activityIndicator.isHidden = true
+        }
     }
 }
 
@@ -72,6 +85,7 @@ extension BoxOfficeViewController: ViewDesignProtocol {
         view.addSubview(baseDateLabel)
         view.addSubview(searchButton)
         view.addSubview(movieTableView)
+        view.addSubview(activityIndicator)
     }
 
     func configureLayout() {
@@ -104,6 +118,10 @@ extension BoxOfficeViewController: ViewDesignProtocol {
             make.horizontalEdges.equalToSuperview().inset(8)
             make.bottom.equalToSuperview()
         }
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.size.equalTo(60)
+        }
     }
 
     func configureView() {
@@ -128,6 +146,10 @@ extension BoxOfficeViewController: ViewDesignProtocol {
         movieTableView.delegate = self
         movieTableView.dataSource = self
         searchTextField.delegate = self
+
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.isHidden = true
+        activityIndicator.color = .white
     }
 }
 
